@@ -1,0 +1,2589 @@
+<!DOCTYPE html>
+<!--
+LƯU TOÀN BỘ FILE NÀY THÀNH index.html, mã hóa UTF-8.
+
+Đặt index.html cùng thư mục với:
+- anh1.png hoặc anh1.jpg: ảnh chat đầu thứ nhất.
+- anh2.png hoặc anh2.jpg: ảnh chat đầu thứ hai.
+- chibi-philippines-teacher.png
+- chibi-vietnam-student.png
+- music.mp3
+- video1.mp4: VIDEO MÓN QUÀ CUỐI.
+
+Nếu tên hoặc đuôi file khác, sửa CONFIG bên dưới.
+Điền số cuộc gọi thật trong CONFIG. Không có số liệu nào được tự bịa.
+
+Đã kiểm tra cú pháp và luồng xử lý bằng dữ liệu mô phỏng.
+Chưa kiểm tra hiển thị bằng trình duyệt, media thật hoặc tài khoản Formspree trong phiên này.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#160c16">
+<meta name="description" content="Thirty days. A little story for asawakooo, from your baby.">
+<meta name="robots" content="noindex,nofollow">
+<title>30 Days · asawakooo × your baby</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23160c16'/%3E%3Cpath d='M32 48 14 30C2 17 21 7 32 21 43 7 62 17 50 30Z' fill='%23f5b5c7'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#160c16;
+  --ink:#fff3f2;
+  --muted:#d3b9c5;
+  --rose:#f5b5c7;
+  --line:rgba(245,181,199,.22);
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+
+html{
+  min-height:100%;
+  scroll-behavior:auto;
+}
+
+body{
+  margin:0;
+  min-width:280px;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:1rem;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+
+button,textarea{font:inherit}
+
+button{
+  cursor:pointer;
+  touch-action:manipulation;
+  border:0;
+}
+
+button:disabled{
+  cursor:wait;
+  opacity:.6;
+}
+
+button:focus-visible,
+textarea:focus-visible{
+  outline:3px solid #f8cfda;
+  outline-offset:5px;
+}
+
+img,video{
+  display:block;
+  max-width:100%;
+}
+
+[hidden]{display:none!important}
+
+::selection{
+  background:#f5b5c7;
+  color:#281323;
+}
+
+.atmosphere{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:-1;
+  background:
+    radial-gradient(ellipse at 15% 8%,rgba(139,48,94,.25),transparent 55%),
+    radial-gradient(ellipse at 88% 90%,rgba(138,67,85,.19),transparent 60%),
+    linear-gradient(150deg,#120b14,#241021 55%,#150e18);
+  transition:opacity 1.5s;
+}
+
+.atmosphere:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+}
+
+.glow{
+  position:absolute;
+  width:min(90vw,700px);
+  aspect-ratio:1;
+  border-radius:50%;
+  filter:blur(80px);
+  background:rgba(187,78,126,.1);
+  top:5%;
+  left:8%;
+  animation:drift 28s ease-in-out infinite alternate;
+}
+
+.glow:nth-child(2){
+  left:auto;
+  right:-20%;
+  top:50%;
+  background:rgba(247,179,140,.08);
+  animation-delay:-15s;
+}
+
+.grain-star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:#f5c9d7;
+  border-radius:50%;
+  opacity:.25;
+  animation:shimmer 9s ease-in-out infinite alternate;
+}
+
+.topbar{
+  position:relative;
+  z-index:5;
+  max-width:1440px;
+  margin:auto;
+  padding:calc(20px + env(safe-area-inset-top)) clamp(20px,5vw,64px) 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+.brand{
+  font-family:var(--serif);
+  font-size:1.3rem;
+  line-height:1.4;
+  letter-spacing:.02em;
+  overflow-wrap:anywhere;
+}
+
+.brand .cross{
+  color:var(--rose);
+  padding:0 8px;
+}
+
+.tools{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.languages{
+  display:flex;
+  border:1px solid var(--line);
+  border-radius:99px;
+  padding:4px;
+  gap:2px;
+  background:#ffffff04;
+}
+
+.language{
+  min-width:40px;
+  min-height:38px;
+  border-radius:99px;
+  background:none;
+  color:var(--muted);
+  font-size:.875rem;
+  line-height:1.3;
+}
+
+.language[aria-pressed=true]{
+  color:#351627;
+  background:var(--rose);
+}
+
+.sound{
+  min-height:46px;
+  padding:8px 13px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--line);
+  border-radius:99px;
+  background:#ffffff04;
+  color:var(--muted);
+  font-size:.875rem;
+  line-height:1.3;
+}
+
+.sound svg{
+  width:18px;
+  height:18px;
+  flex-shrink:0;
+}
+
+.sound[aria-pressed=true]{color:var(--rose)}
+
+.story-progress{
+  max-width:1320px;
+  margin:0 auto;
+  height:1px;
+  background:#ffffff09;
+  width:calc(100% - 40px);
+}
+
+.story-progress span{
+  display:block;
+  height:100%;
+  background:var(--rose);
+  width:0;
+  transition:width .8s ease;
+}
+
+main{
+  position:relative;
+  z-index:1;
+}
+
+.stage{
+  min-height:calc(100svh - 108px);
+  padding:clamp(28px,5vh,65px) 20px calc(24px + env(safe-area-inset-bottom));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+}
+
+.content{
+  width:min(100%,720px);
+  min-width:0;
+  text-align:center;
+  animation:arrive .85s ease both;
+}
+
+.content.wide{width:min(100%,1040px)}
+
+.eyebrow{
+  font-size:.875rem;
+  color:var(--muted);
+  letter-spacing:.12em;
+  margin:0 0 18px;
+  font-weight:400;
+}
+
+.display{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(3rem,8vw,6.3rem);
+  line-height:1.15;
+  letter-spacing:-.02em;
+  margin:0 0 25px;
+  overflow-wrap:anywhere;
+}
+
+.display.small{
+  font-size:clamp(2.3rem,6vw,4.3rem);
+}
+
+.prose{
+  max-width:640px;
+  margin:0 auto;
+  font-size:clamp(1rem,1.4vw,1.125rem);
+  line-height:1.85;
+  color:#e8d4dd;
+  overflow-wrap:anywhere;
+}
+
+.prose p{margin:0 0 24px}
+.prose p:last-child{margin-bottom:0}
+
+.soft-line{
+  width:62px;
+  height:1px;
+  background:var(--line);
+  margin:28px auto;
+}
+
+.emphasis{
+  font-family:var(--serif);
+  font-size:clamp(1.7rem,4vw,2.7rem);
+  line-height:1.35;
+  color:var(--rose);
+  margin:26px auto;
+  max-width:650px;
+  overflow-wrap:anywhere;
+}
+
+.cover{
+  position:relative;
+  padding:6px 0;
+}
+
+.cover:before{
+  content:"";
+  position:absolute;
+  width:min(82vw,390px);
+  aspect-ratio:1;
+  left:50%;
+  top:43%;
+  transform:translate(-50%,-50%);
+  border:1px solid #f5b5c714;
+  border-radius:50%;
+  pointer-events:none;
+}
+
+.number{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(9rem,31vw,19rem);
+  line-height:.97;
+  letter-spacing:-.07em;
+  padding-right:.07em;
+  margin:0;
+  color:#f9d5df;
+  text-shadow:0 0 70px #d85d9140;
+}
+
+.days{
+  letter-spacing:.42em;
+  font-size:.9rem;
+  margin:12px 0 26px;
+  padding-left:.42em;
+  color:var(--rose);
+}
+
+.route{
+  font-size:.9375rem;
+  color:var(--muted);
+  margin:0 0 24px;
+}
+
+.opening-line{
+  font-family:var(--serif);
+  font-size:clamp(1.45rem,4vw,2rem);
+  line-height:1.5;
+  margin:0 auto;
+  max-width:580px;
+}
+
+.characters{
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  gap:clamp(22px,6vw,65px);
+  margin:30px auto 8px;
+  min-width:0;
+}
+
+.character{
+  width:clamp(100px,24vw,150px);
+  min-width:0;
+  margin:0;
+  animation:float 7s ease-in-out infinite;
+}
+
+.character:nth-child(2){animation-delay:-3s}
+
+.character img{
+  width:100%;
+  height:160px;
+  object-fit:contain;
+  filter:drop-shadow(0 14px 24px #0006);
+}
+
+.character figcaption{
+  margin-top:8px;
+  font-size:.875rem;
+  color:var(--muted);
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+
+.actions{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:32px auto 0;
+  width:100%;
+}
+
+.button{
+  min-height:50px;
+  padding:13px 28px;
+  border-radius:99px;
+  font-size:.875rem;
+  font-weight:500;
+  letter-spacing:.07em;
+  line-height:1.5;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  background:var(--rose);
+  color:#321425;
+  box-shadow:0 9px 35px #f5b5c71a;
+  transition:transform .25s,background .25s;
+  max-width:100%;
+}
+
+.button:hover{
+  background:#fbd1de;
+  transform:translateY(-2px);
+}
+
+.button.ghost{
+  background:transparent;
+  box-shadow:none;
+  color:var(--muted);
+  border:1px solid var(--line);
+}
+
+.button.text{
+  background:transparent;
+  box-shadow:none;
+  color:var(--muted);
+  font-size:.875rem;
+  text-transform:none;
+  letter-spacing:0;
+  padding:8px 18px;
+  min-height:44px;
+}
+
+.photos{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:24px;
+  width:100%;
+  max-width:790px;
+  margin:34px auto;
+}
+
+.photo{
+  margin:0;
+  padding:12px;
+  background:#fff0eb;
+  border-radius:3px;
+  box-shadow:0 15px 60px #0004;
+  min-width:0;
+}
+
+.photo:nth-child(1){transform:rotate(-2deg)}
+.photo:nth-child(2){transform:rotate(2deg)}
+
+.photo-button{
+  display:block;
+  background:none;
+  padding:0;
+  width:100%;
+  border-radius:2px;
+}
+
+.photo img{
+  width:100%;
+  height:auto;
+  max-height:390px;
+  object-fit:contain;
+  margin:auto;
+  background:#eee4e5;
+}
+
+.photo figcaption{
+  font-family:var(--serif);
+  font-size:1.2rem;
+  color:#603b4c;
+  margin-top:12px;
+  line-height:1.4;
+}
+
+.asset-error{
+  font-size:.9375rem;
+  line-height:1.7;
+  color:#745363;
+  padding:20px 10px;
+  overflow-wrap:anywhere;
+}
+
+.asset-error button{
+  color:inherit;
+  font-size:.875rem;
+  background:transparent;
+  text-decoration:underline;
+  padding:12px;
+  min-height:44px;
+}
+
+.story-beats{
+  margin:30px auto 0;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  max-width:580px;
+}
+
+.beat{
+  font-family:var(--serif);
+  font-size:clamp(1.4rem,3.8vw,2.1rem);
+  line-height:1.5;
+  color:#ead6df;
+  animation:arrive 1s ease both;
+}
+
+.beat:nth-child(2){animation-delay:.15s}
+.beat:nth-child(3){animation-delay:.3s}
+.beat:nth-child(4){animation-delay:.45s}
+.beat:last-child{color:var(--rose)}
+
+.contrast{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:30px;
+  text-align:left;
+  margin:15px auto 35px;
+}
+
+.contrast section{
+  border-top:1px solid var(--line);
+  padding-top:24px;
+  min-width:0;
+}
+
+.contrast h2{
+  font-family:var(--serif);
+  font-size:2.6rem;
+  line-height:1.25;
+  margin:0 0 15px;
+  color:var(--rose);
+  font-weight:400;
+}
+
+.stat-number{
+  font-family:var(--serif);
+  font-size:clamp(6rem,19vw,11rem);
+  line-height:1.1;
+  margin:15px 0 8px;
+  color:var(--rose);
+}
+
+.call-list{
+  margin:26px auto;
+  max-width:520px;
+  border-top:1px solid var(--line);
+}
+
+.call-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:14px 0;
+  border-bottom:1px solid var(--line);
+  font-size:1rem;
+  color:var(--muted);
+  text-align:left;
+  overflow-wrap:anywhere;
+}
+
+.call-row strong{
+  color:var(--ink);
+  font-weight:500;
+  flex-shrink:0;
+}
+
+.question{
+  font-family:var(--serif);
+  font-size:clamp(2rem,5.3vw,3.25rem);
+  line-height:1.3;
+  font-weight:400;
+  margin:16px auto 25px;
+  max-width:700px;
+  overflow-wrap:anywhere;
+}
+
+.response{
+  max-width:640px;
+  margin:auto;
+  text-align:left;
+}
+
+.response textarea{
+  width:100%;
+  min-height:170px;
+  resize:vertical;
+  border:1px solid #f5b5c74a;
+  border-radius:18px;
+  padding:20px;
+  background:#ffffff07;
+  color:var(--ink);
+  font-size:1rem;
+  line-height:1.75;
+  display:block;
+  box-shadow:inset 0 1px 15px #0001;
+}
+
+.response textarea::placeholder{color:#bb9cac}
+
+.response textarea:focus{
+  border-color:var(--rose);
+  background:#ffffff0a;
+}
+
+.form-note{
+  min-height:1.75em;
+  color:var(--muted);
+  font-size:.875rem;
+  margin:12px 4px 0;
+  line-height:1.7;
+  overflow-wrap:anywhere;
+}
+
+.form-note.error{color:#ffc5bf}
+
+.answer-count{
+  font-size:.875rem;
+  color:var(--muted);
+  margin:0 0 8px;
+  letter-spacing:.09em;
+}
+
+.letter{
+  background:#fbf3f0;
+  color:#462b39;
+  border-radius:4px;
+  padding:clamp(28px,6vw,60px);
+  box-shadow:0 25px 90px #0004;
+  text-align:left;
+  width:min(100%,720px);
+  position:relative;
+  border-top:3px solid #efb8c5;
+}
+
+.letter:before{
+  content:"";
+  display:block;
+  width:35px;
+  height:1px;
+  background:#c890a1;
+  margin:0 0 22px;
+}
+
+.letter .eyebrow{
+  color:#885b6e;
+  letter-spacing:.04em;
+  font-family:var(--serif);
+  font-size:1.3rem;
+}
+
+.letter .prose{
+  color:#563545;
+  font-size:clamp(1.0625rem,1.7vw,1.1875rem);
+  line-height:1.9;
+}
+
+.letter .prose p{margin-bottom:22px}
+
+.quiet .display{color:var(--rose)}
+
+.end-word{
+  font-size:.9375rem;
+  letter-spacing:.3em;
+  color:var(--muted);
+  animation:arrive 1s 2.8s both;
+  margin-top:32px;
+}
+
+.wait-line{animation:arrive 1s 2s both}
+
+.video-wrap{
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
+  border:1px solid var(--line);
+  padding:8px;
+  background:#000;
+  border-radius:18px;
+  box-shadow:0 20px 80px #0006;
+}
+
+.video-wrap video{
+  width:100%;
+  height:auto;
+  max-height:70svh;
+  object-fit:contain;
+  border-radius:11px;
+  background:#000;
+}
+
+.video-status{
+  color:var(--muted);
+  font-size:.9375rem;
+  line-height:1.7;
+  margin:18px auto 0;
+  max-width:640px;
+}
+
+.blackout{background:#000}
+.blackout .atmosphere{opacity:0}
+
+.blackout .topbar,
+.blackout .story-progress{
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.blackout main{opacity:0}
+.storm .atmosphere{filter:saturate(.65)}
+
+.footnote{
+  margin:35px auto 0;
+  text-align:center;
+  font-size:.875rem;
+  color:#b091a4;
+  letter-spacing:.04em;
+}
+
+dialog{
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:#21121f;
+  color:var(--ink);
+  width:min(94vw,1000px);
+  max-height:92dvh;
+  overflow:auto;
+}
+
+dialog::backdrop{
+  background:#07040bec;
+  backdrop-filter:blur(8px);
+}
+
+.dialog-tools{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:12px;
+}
+
+.dialog-tools button{
+  min-height:44px;
+  min-width:44px;
+  border-radius:50%;
+  background:#ffffff0b;
+  color:var(--ink);
+  font-size:1.5rem;
+  line-height:1;
+}
+
+.zoom-image{
+  max-width:100%;
+  max-height:78dvh;
+  object-fit:contain;
+  margin:auto;
+  width:auto;
+}
+
+.sr-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+@keyframes arrive{
+  from{opacity:0;transform:translateY(15px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+
+@keyframes drift{
+  from{transform:translate(-4%,0)}
+  to{transform:translate(12%,8%)}
+}
+
+@keyframes shimmer{
+  from{opacity:.12}
+  to{opacity:.4}
+}
+
+@media(max-width:600px){
+  .topbar{
+    justify-content:center;
+    padding-top:calc(16px + env(safe-area-inset-top));
+    gap:12px;
+  }
+
+  .brand{
+    text-align:center;
+    width:100%;
+    font-size:1.15rem;
+  }
+
+  .tools{margin:auto}
+
+  .stage{
+    padding-top:32px;
+    min-height:calc(100svh - 132px);
+  }
+
+  .photos{
+    grid-template-columns:1fr;
+    max-width:340px;
+    gap:30px;
+  }
+
+  .photo{max-width:100%}
+
+  .contrast{
+    grid-template-columns:1fr;
+    gap:28px;
+  }
+
+  .character img{height:135px}
+
+  .characters{
+    margin-top:24px;
+    gap:28px;
+  }
+
+  .display{margin-bottom:22px}
+  .letter{padding:28px 24px}
+
+  .actions{
+    margin-top:28px;
+    gap:10px;
+  }
+
+  .button{padding:13px 23px}
+
+  .question{
+    font-size:clamp(1.95rem,7.5vw,2.7rem);
+  }
+
+  .video-wrap{
+    padding:5px;
+    border-radius:12px;
+  }
+
+  .video-wrap video{border-radius:8px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+
+  *,*:before,*:after{
+    animation:none!important;
+    transition:none!important;
+  }
+
+  .end-word,.wait-line{opacity:1}
+}
+</style>
+</head>
+
+<body>
+<div class="atmosphere" aria-hidden="true">
+  <div class="glow"></div>
+  <div class="glow"></div>
+  <div id="stars"></div>
+</div>
+
+<header class="topbar" id="topbar">
+  <div class="brand">
+    <span id="recipientName">asawakooo</span>
+    <span class="cross">×</span>
+    <span id="senderName">your baby</span>
+  </div>
+
+  <div class="tools">
+    <div class="languages" role="group" aria-label="Language">
+      <button class="language" data-lang="en" aria-pressed="true">EN</button>
+      <button class="language" data-lang="vi" aria-pressed="false">VI</button>
+    </div>
+
+    <button class="sound" id="soundButton" type="button" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.5" aria-hidden="true">
+        <path d="M9 18V5l11-2v13M9 8l11-2"/>
+        <ellipse cx="6" cy="18" rx="3" ry="2.5"/>
+        <ellipse cx="17" cy="16" rx="3" ry="2.5"/>
+      </svg>
+      <span id="soundLabel">Music</span>
+    </button>
+  </div>
+</header>
+
+<div class="story-progress"
+     role="progressbar"
+     aria-label="Story progress"
+     aria-valuemin="0"
+     aria-valuemax="100"
+     aria-valuenow="0">
+  <span id="progressFill"></span>
+</div>
+
+<main id="main">
+  <noscript>
+    <div class="stage">
+      <p>Please enable JavaScript to open our story.</p>
+    </div>
+  </noscript>
+</main>
+
+<dialog id="photoDialog">
+  <div class="dialog-tools">
+    <button id="closePhoto" type="button" aria-label="Close photo">×</button>
+  </div>
+  <img class="zoom-image" id="zoomImage" alt="">
+</dialog>
+
+<script>
+/* =========================================================
+   CONFIG — SỬA TÊN FILE VÀ SỐ CUỘC GỌI TẠI ĐÂY
+   ========================================================= */
+
+const CONFIG={
+  recipient:"asawakooo",
+  sender:"your baby",
+  formEndpoint:"https://formspree.io/f/mwlpdked",
+
+  chatImages:[
+    ["anh1.jpg","anh1.jpg","anh1.jpeg","anh1.webp"],
+    ["anh2.jpg","anh2.jpg","anh2.jpeg","anh2.webp"]
+  ],
+
+  philippinesChibi:[
+    "chibi-philippines-teacher.png",
+    "chibi-philippines-teacher.webp",
+    "chibi-philippines-teacher.jpg"
+  ],
+
+  vietnamChibi:[
+    "chibi-vietnam-student.png",
+    "chibi-vietnam-student.webp",
+    "chibi-vietnam-student.jpg"
+  ],
+
+  music:[
+    "music.mp3",
+    "music.m4a",
+    "music.wav",
+    "music.ogg",
+    "music.mp4"
+  ],
+
+  giftVideo:[
+    "video1.mp4",
+    "video1.webm",
+    "video1.mov"
+  ],
+
+  // Thay null bằng tổng số cuộc gọi thật nếu đã biết.
+  callTotal:null,
+
+  // Có thể điền các ngày và số cuộc gọi thật:
+  // {date:"YYYY-MM-DD",count:NUMBER}
+  // Tổng số sẽ tự cộng từ danh sách nếu callTotal vẫn là null.
+  callGroups:[]
+};
+
+/* =========================================================
+   NỘI DUNG EN / VI
+   ========================================================= */
+
+const COPY=[
+  ["30 DAYS","30 NGÀY"],
+  ["asawakooo × your baby","asawakooo × your baby"],
+  ["Vietnam 🇻🇳 ↔ Philippines 🇵🇭","Việt Nam 🇻🇳 ↔ Philippines 🇵🇭"],
+  ["30 days ago, we started talking…","30 ngày trước, tụi mình bắt đầu nói chuyện…"],
+
+  [
+    "At first, we were two people who knew so little about each other. Just a few messages, a little curiosity, and no idea where this would lead.",
+    "Lúc mới bắt đầu, tụi mình vẫn còn là hai người chưa biết nhiều về nhau. Chỉ có những tin nhắn đầu tiên, một chút tò mò và chưa biết câu chuyện này sẽ đi đến đâu."
+  ],
+
+  [
+    "I had no idea that, 30 days later, I would be here, making this little story for you.",
+    "Lúc đó, em đâu biết rằng 30 ngày sau, mình lại ngồi đây, làm một câu chuyện nhỏ dành cho chị."
+  ],
+
+  [
+    "Before our first call, there was a time when things no longer felt as easy as they had in the beginning.",
+    "Trước cuộc gọi đầu tiên, đã có một khoảng thời gian mà mọi thứ không còn nhẹ nhàng như lúc mới bắt đầu."
+  ],
+
+  [
+    "We were a little upset with each other. There were things we didn’t understand. And we even wondered…",
+    "Hai đứa có một chút giận dỗi, có những điều chưa hiểu nhau. Và thậm chí đã từng nghĩ rằng…"
+  ],
+
+  ["Maybe we should stop here.","Có lẽ nên dừng lại ở đây."],
+  ["But then…","Nhưng rồi…"],
+
+  [
+    "Instead of letting our story end in a few messages, we decided to call each other.",
+    "Thay vì để mọi thứ kết thúc bằng những dòng tin nhắn, hai đứa đã quyết định gọi cho nhau."
+  ],
+
+  ["Our first call.","Đó là cuộc gọi đầu tiên."],
+
+  [
+    "Maybe we were still a little shy, a little sad, and unsure how to say everything we were feeling.",
+    "Có thể lúc bắt đầu cuộc gọi, cả hai vẫn còn một chút ngại ngùng, một chút buồn và có những điều chưa biết phải nói như thế nào."
+  ],
+
+  ["But we kept talking.","Nhưng rồi hai đứa cứ nói chuyện."],
+  ["About what was bothering us…","Từ những điều đang buồn…"],
+  ["Then about little, ordinary things…","Đến những chuyện nhỏ nhặt…"],
+  ["Then we laughed…","Rồi cười…"],
+
+  [
+    "And somehow, we stayed on the call longer than we expected.",
+    "Rồi cứ thế nói chuyện lâu hơn mình nghĩ."
+  ],
+
+  [
+    "If we had really stopped talking that day, I might never have known how much our first call could make me feel.",
+    "Nếu lúc đó chúng ta thật sự dừng lại, có lẽ em sẽ không bao giờ biết cuộc gọi đầu tiên của chúng ta lại có thể khiến em cảm thấy nhiều như vậy."
+  ],
+
+  [
+    "I remember still being upset, and there were still things we didn’t understand about each other. But when I heard your voice, talked to you, and saw you on my screen, things felt different from how I had imagined them through messages.",
+    "Em nhớ lúc đó mình vẫn còn giận, vẫn còn những điều chưa hiểu nhau. Nhưng khi nghe giọng chị, nói chuyện với chị và nhìn chị qua màn hình, em lại cảm thấy mọi thứ không còn giống như những gì em nghĩ khi chỉ nhắn tin."
+  ],
+
+  [
+    "I realized that messages can’t carry every feeling. Sometimes, we only begin to understand when we hear each other’s voices, see each other, and really talk.",
+    "Em nhận ra có những cảm xúc mà tin nhắn không thể truyền tải hết. Có những điều chỉ khi nghe giọng nhau, nhìn nhau và thật sự nói chuyện thì mình mới hiểu được."
+  ],
+
+  [
+    "And maybe that first call was when I started seeing you differently. Not just as someone I texted every day, but as someone I truly wanted to know better.",
+    "Và có lẽ cuộc gọi đầu tiên đó là lúc em bắt đầu nhìn chị theo một cách khác. Không chỉ là một người mà em đang nhắn tin mỗi ngày, mà là một người em thật sự muốn hiểu thêm."
+  ],
+
+  [
+    "I don’t know if you remember our first call the same way I do. But for me, it was one of the most important moments of these 30 days.",
+    "Em không biết chị có nhớ cuộc gọi đầu tiên đó giống em không. Nhưng với em, nó là một trong những khoảnh khắc quan trọng nhất của 30 ngày này."
+  ],
+
+  [
+    "Because if we had chosen to stop that day, there might have been no more calls, no laughing together, no late-night conversations where we lost track of time…",
+    "Bởi vì nếu ngày hôm đó hai đứa chọn dừng lại, thì có lẽ sẽ không có những cuộc gọi sau đó, không có những lần mình cười cùng nhau, không có những đêm nói chuyện lâu đến mức quên mất thời gian…"
+  ],
+
+  ["And there would be no today.","Và cũng sẽ không có ngày hôm nay."],
+  ["But I want to know something…","Nhưng có một điều em muốn biết…"],
+
+  [
+    "What did you feel after our first call?",
+    "Sau cuộc gọi đầu tiên, chị đã cảm thấy như thế nào?"
+  ],
+
+  ["Thank you for telling me.","Cảm ơn chị đã chia sẻ với em."],
+
+  [
+    "And somehow, that was only the beginning…",
+    "Và hóa ra, đó mới chỉ là khởi đầu…"
+  ],
+
+  [
+    "After that first call, there were more. More laughter, more late-night conversations, and more moments when we just wanted to hear each other’s voices.",
+    "Từ cuộc gọi đầu tiên đó, tụi mình đã có thêm những cuộc gọi khác. Có thêm những lần cười cùng nhau, những đêm nói chuyện rất lâu và những lúc chỉ muốn nghe giọng nhau."
+  ],
+
+  [
+    "Calls in our first 30 days",
+    "Các cuộc gọi trong 30 ngày đầu của tụi mình"
+  ],
+
+  [
+    "It started with one call. And then, we kept talking.",
+    "Mọi thứ bắt đầu từ một cuộc gọi. Rồi tụi mình cứ thế tiếp tục nói chuyện."
+  ],
+
+  ["At first…","Lúc đầu…"],
+
+  [
+    "I only knew you through messages. There were things I didn’t understand, and feelings I didn’t know how to put into words.",
+    "Ngày đầu, em chỉ biết chị qua những tin nhắn. Có những điều em chưa hiểu và có những cảm xúc mà em chưa biết phải nói như thế nào."
+  ],
+
+  ["Now…","Bây giờ…"],
+
+  [
+    "After our conversations and calls, I want to understand you more. And I want to learn how to help you understand me, too.",
+    "Bây giờ, sau những lần nói chuyện và gọi cho nhau, em muốn hiểu chị nhiều hơn. Và em cũng muốn học cách để chị hiểu em rõ hơn."
+  ],
+
+  [
+    "We’re still getting to know each other. But I’m glad we’ve made it from that first day to today.",
+    "Tụi mình vẫn đang tìm hiểu nhau. Nhưng em vui vì hai đứa đã có cơ hội đi từ ngày đầu tiên đến hôm nay."
+  ],
+
+  [
+    "Thirty days aren’t enough for me to know everything about you. But I’m learning, through the things you tell me, the moments when you’re happy, and the moments when you’re not.",
+    "30 ngày chưa đủ để em hiểu hết mọi điều về chị. Nhưng em đang học cách hiểu chị nhiều hơn, qua những điều chị kể, những lúc chị vui và cả những lúc chị không vui."
+  ],
+
+  [
+    "I’m also learning that we don’t always express our feelings in the same way. Some things need to be said clearly, instead of expecting the other person to just know.",
+    "Em cũng đang học rằng mỗi người có một cách thể hiện cảm xúc khác nhau. Có những điều mình cần nói rõ, thay vì mong người kia tự hiểu."
+  ],
+
+  [
+    "I want to keep learning about you. What you like, what you don’t, and what makes you feel cared for.",
+    "Em muốn tiếp tục biết thêm về chị: điều chị thích, điều chị không thích và điều khiến chị cảm thấy được quan tâm."
+  ],
+
+  ["Can I ask you three more things?","Em hỏi chị thêm ba điều nữa được không?"],
+
+  [
+    "Take your time. I want to hear what you really think.",
+    "Chị cứ từ từ nha. Em muốn nghe những điều chị thật sự nghĩ."
+  ],
+
+  [
+    "Over these 30 days, when have you felt closest to me?",
+    "Trong 30 ngày qua, lúc nào chị cảm thấy gần gũi với em nhất?"
+  ],
+
+  [
+    "Is there something about you or your feelings that you wish I understood better?",
+    "Có điều gì về chị hoặc cảm xúc của chị mà chị mong em hiểu rõ hơn không?"
+  ],
+
+  [
+    "As we keep getting to know each other, what could we do to communicate better and help you feel more cared for?",
+    "Khi tiếp tục tìm hiểu nhau, tụi mình có thể làm gì để nói chuyện tốt hơn và để chị cảm thấy được quan tâm hơn?"
+  ],
+
+  ["Thank you for being honest with me.","Cảm ơn chị đã thật lòng với em."],
+
+  [
+    "I think we can start with small things. Saying when something hurts, asking when we don’t understand, and letting each other know when we need a little time.",
+    "Em nghĩ tụi mình có thể bắt đầu từ những điều nhỏ thôi: nói rõ khi có chuyện khiến mình buồn, hỏi nhau khi chưa hiểu và báo cho nhau biết khi cần một chút thời gian."
+  ],
+
+  [
+    "I have things to learn and things to work on, too.",
+    "Em cũng có những điều cần học và cần sửa."
+  ],
+
+  [
+    "And there’s something I really want to tell you.",
+    "Và có một điều em thật sự muốn nói với chị."
+  ],
+
+  [
+    "I know that sometimes, when I’m not feeling okay, I want to be alone. I know that’s hard for you, and I’m really sorry for the times I’ve left you feeling confused or unsure what to do.",
+    "Em biết có những lúc tâm trạng em không tốt, em lại muốn ở một mình. Em biết chị không thích điều đó, và em thật sự xin lỗi vì đôi khi em đã khiến chị cảm thấy khó hiểu hoặc khó xử."
+  ],
+
+  [
+    "I also know that we’re very far apart. When the same things happen over and over, they can leave both of us feeling tired or less connected. I can feel that way, too. If something you did bothered me and kept happening, I would also feel sad and tired. So I understand a little of how you feel.",
+    "Em cũng hiểu rằng tụi mình đang ở rất xa nhau. Vì vậy, đôi khi những điều giống nhau cứ lặp đi lặp lại có thể khiến cả hai mệt mỏi hoặc dễ chán. Ngay cả em cũng vậy. Nếu có một điều gì đó ở chị mà em không thích, nhưng nó cứ lặp lại nhiều lần, em cũng sẽ cảm thấy buồn và mệt. Nên em hiểu phần nào cảm giác của chị."
+  ],
+
+  [
+    "I hope you can understand me in the moments when I’m not feeling okay. Sometimes, I need a little time alone to calm down. It doesn’t mean I don’t want you beside me, or that I don’t need you. I’ll try to learn how to tell you more clearly, instead of going quiet or shutting myself away.",
+    "Em chỉ mong chị có thể thông cảm cho em trong những lúc tâm trạng em không tốt. Đôi khi em cần một chút thời gian ở một mình để bình tĩnh lại, chứ không phải vì em không muốn chị ở bên cạnh, cũng không phải vì em không cần chị. Em sẽ cố gắng học cách nói với chị rõ ràng hơn thay vì cứ im lặng hoặc tự thu mình lại."
+  ],
+
+  [
+    "I don’t know what our future will look like. I don’t want to make promises about a future we’re still finding our way toward. But I know that, right now, I really want to be by your side and keep sharing this journey with you.",
+    "Em không biết tương lai của tụi mình sẽ như thế nào. Em cũng không muốn nói những điều quá chắc chắn về một tương lai mà cả hai vẫn đang từng bước tìm hiểu. Nhưng em biết rằng hiện tại, em thật sự muốn ở bên cạnh chị và đồng hành cùng chị."
+  ],
+
+  [
+    "For now, I just want us to be there for each other, as well as we can.",
+    "Trước tiên, em chỉ muốn chúng ta đồng hành cùng nhau thật tốt đã."
+  ],
+
+  [
+    "If one day we want to build a life where we can be together in person, I think there will be a lot for us to work through first. Distance, language, work, family, money, and so many other things. It probably won’t always be easy.",
+    "Em nghĩ nếu một ngày nào đó tụi mình muốn tiến đến một cuộc sống có thể ở cạnh nhau, thì trước đó chắc chắn sẽ có rất nhiều điều phải trải qua. Khoảng cách, ngôn ngữ, công việc, gia đình, tiền bạc và rất nhiều thứ khác. Có lẽ sẽ không phải lúc nào cũng dễ dàng."
+  ],
+
+  [
+    "But I think anything truly meaningful takes effort. The things we hope for don’t happen without putting in the work and getting through difficult moments.",
+    "Nhưng em nghĩ bất cứ điều gì thật sự có ý nghĩa đều cần sự cố gắng. Không có thành tựu nào đến mà không cần mình bỏ công sức và trải qua những lúc khó khăn."
+  ],
+
+  [
+    "And maybe, because it isn’t easy, we’ll appreciate it even more when we get there.",
+    "Và có lẽ chính vì không dễ dàng nên khi có được, chúng ta mới biết trân trọng nó nhiều hơn."
+  ],
+
+  [
+    "I don’t expect everything between us to be perfect. I just hope that when things get difficult, we can still talk, understand each other a little more, and find a better way together.",
+    "Em không mong mọi thứ giữa chúng ta lúc nào cũng hoàn hảo. Em chỉ mong khi có những lúc khó khăn, cả hai vẫn có thể nói chuyện với nhau, hiểu nhau thêm một chút, và cùng nhau tìm cách tốt hơn."
+  ],
+
+  [
+    "I want us to have happy days, but also to learn how to be there for each other on the days that aren’t so happy.",
+    "Em muốn chúng ta không chỉ có những ngày vui vẻ, mà còn học cách ở cạnh nhau trong những ngày không vui."
+  ],
+
+  [
+    "And if we can, I’d like these 30 days to be just a small part of a longer journey we get to discover together.",
+    "Và nếu có thể, em muốn 30 ngày này chỉ là một phần rất nhỏ trong một hành trình dài hơn mà cả hai sẽ cùng nhau khám phá."
+  ],
+
+  [
+    "Thank you for coming into my life and sharing these 30 days with me.",
+    "Cảm ơn chị vì đã xuất hiện và đồng hành cùng em trong 30 ngày vừa qua."
+  ],
+
+  [
+    "I’m glad we started talking 30 days ago. And I’m glad that, even after the moments when we didn’t understand each other, we still had the chance to keep getting to know each other.",
+    "Em vui vì 30 ngày trước, tụi mình đã bắt đầu nói chuyện. Và em cũng vui vì sau những lúc chưa hiểu nhau, hai đứa vẫn có cơ hội tiếp tục tìm hiểu nhau."
+  ],
+
+  ["Happy 30 days to us, asawakooo.","Mừng 30 ngày của tụi mình, asawakooo."],
+  ["HAPPY 30 DAYS TO US","MỪNG 30 NGÀY CỦA TỤI MÌNH"],
+  ["THE END","HẾT"],
+  ["Wait…","Khoan đã…"],
+  ["I have one last thing for you.","Em còn một điều cuối cùng dành cho chị."],
+  ["I have a little gift for you.","Em có một món quà nhỏ dành cho chị."],
+
+  [
+    "To thank you for being here, and for sharing these 30 days with me.",
+    "Để cảm ơn chị vì đã ở đây và đồng hành cùng em trong 30 ngày vừa qua."
+  ],
+
+  ["Happy 30 days, asawakooo. ❤️","Mừng 30 ngày, asawakooo. ❤️"],
+  ["Let’s keep getting to know each other.","Tụi mình tiếp tục tìm hiểu nhau nhé."],
+  ["With love, your baby.","Thương chị, your baby."],
+  ["Draft saved on this device.","Bản nháp đã được lưu trên thiết bị này."],
+  ["Your answer has been sent.","Câu trả lời đã được gửi."],
+
+  [
+    "We couldn’t confirm that your answer was sent. Your draft is still here. Please try again.",
+    "Chưa xác nhận được câu trả lời đã gửi thành công. Bản nháp vẫn còn ở đây. Chị thử lại nhé."
+  ]
+];
+
+const UI={
+  start:["START","BẮT ĐẦU"],
+  continue:["CONTINUE","TIẾP TỤC"],
+  keepGoing:["KEEP GOING","TIẾP TỤC"],
+  back:["BACK","QUAY LẠI"],
+  next:["NEXT","TIẾP"],
+  save:["SAVE & CONTINUE","GỬI & TIẾP TỤC"],
+  saveAll:["SAVE MY ANSWERS","GỬI CÂU TRẢ LỜI"],
+  open:["OPEN YOUR GIFT","MỞ MÓN QUÀ"],
+  replay:["REPLAY OUR STORY","XEM LẠI CÂU CHUYỆN"],
+  later:["ANSWER LATER","TRẢ LỜI SAU"],
+  retry:["TRY AGAIN","THỬ LẠI"],
+  play:["PLAY VIDEO","PHÁT VIDEO"],
+  music:["Music","Nhạc"],
+  sending:["Sending…","Đang gửi…"],
+
+  draft:[
+    "Draft saved on this device.",
+    "Bản nháp đã được lưu trên thiết bị này."
+  ],
+
+  draftUnavailable:[
+    "Your draft stays here while this page is open.",
+    "Bản nháp được giữ khi trang này đang mở."
+  ],
+
+  empty:[
+    "Write a little something, or choose Answer later.",
+    "Chị viết vài điều, hoặc chọn Trả lời sau nhé."
+  ],
+
+  error:[
+    "We couldn’t confirm that your answer was sent. Your draft is still here. Please try again.",
+    "Chưa xác nhận được câu trả lời đã gửi thành công. Bản nháp vẫn còn ở đây. Chị thử lại nhé."
+  ],
+
+  sent:["Your answer has been sent.","Câu trả lời đã được gửi."],
+
+  placeholder:[
+    "Take your time. I’m listening.",
+    "Chị cứ từ từ nha. Em đang lắng nghe."
+  ],
+
+  deepPlaceholder:[
+    "Whatever you want to tell me…",
+    "Chị muốn nói điều gì với em cũng được…"
+  ],
+
+  photo:["Our first messages","Những tin nhắn đầu tiên"],
+  photoError:["This photo couldn’t be loaded.","Chưa tải được ảnh này."],
+  closePhoto:["Close photo","Đóng ảnh"],
+  language:["Language","Ngôn ngữ"],
+  progress:["Story progress","Tiến trình câu chuyện"],
+  story:["Our story","Câu chuyện của tụi mình"],
+  to:["To","Gửi"],
+  from:["With love,","Thương chị,"],
+  call:["call","cuộc gọi"],
+  calls:["calls","cuộc gọi"],
+
+  videoError:[
+    "This video couldn’t be loaded. Please try again.",
+    "Chưa tải được video. Chị thử lại nhé."
+  ],
+
+  videoLoading:["Opening your gift…","Đang mở món quà…"],
+
+  videoPlay:[
+    "Your gift is ready. Tap Play video if it hasn’t started.",
+    "Món quà đã sẵn sàng. Chị bấm Phát video nếu video chưa bắt đầu nhé."
+  ],
+
+  musicError:[
+    "Music couldn’t be loaded. Tap Music to try again.",
+    "Chưa tải được nhạc. Chị bấm Nhạc để thử lại nhé."
+  ]
+};
+
+/* =========================================================
+   CẤU TRÚC CÂU CHUYỆN — KHÔNG HIỆN TÊN MỤC LÊN WEB
+   ========================================================= */
+
+const normalScenes=[
+  {id:"opening",kind:"opening"},
+  {id:"messages",kind:"messages",text:[4,5]},
+  {id:"before",kind:"storm",text:[6,7],emphasis:8},
+  {id:"but",kind:"statement",title:9,text:[10],emphasis:11},
+  {id:"first",kind:"beats",text:[12,13],beats:[14,15,16,17]},
+  {id:"feelingA",kind:"prose",text:[18,19]},
+  {id:"feelingB",kind:"prose",text:[20,21]},
+  {id:"remember",kind:"prose",text:[22,23],emphasis:24},
+
+  {
+    id:"firstQuestion",
+    kind:"question",
+    lead:25,
+    question:26,
+    key:"firstCall"
+  },
+
+  {id:"beginning",kind:"statement",title:28},
+  {id:"calls",kind:"calls",text:[29]},
+  {id:"thenNow",kind:"contrast"},
+  {id:"learning",kind:"prose",text:[37,38,39]},
+  {id:"deepIntro",kind:"statement",title:40,text:[41]},
+
+  {
+    id:"deep1",
+    kind:"question",
+    question:42,
+    key:"closest",
+    number:1
+  },
+
+  {
+    id:"deep2",
+    kind:"question",
+    question:43,
+    key:"understand",
+    number:2
+  },
+
+  {
+    id:"deep3",
+    kind:"question",
+    question:44,
+    key:"care",
+    number:3
+  },
+
+  {id:"better",kind:"prose",text:[46,47],emphasis:48},
+  {id:"letter1",kind:"letter",text:[49]},
+  {id:"letter2",kind:"letter",text:[50]},
+  {id:"letter3",kind:"letter",text:[51]},
+  {id:"letter4",kind:"letter",text:[52,53]},
+  {id:"letter5",kind:"letter",text:[54]},
+  {id:"letter6",kind:"letter",text:[55,56]},
+  {id:"letter7",kind:"letter",text:[57,58,59]},
+  {id:"thanks",kind:"prose",text:[60,61],emphasis:62}
+];
+
+const scenes=[
+  ...normalScenes,
+  {id:"ending",kind:"ending"},
+  {id:"black",kind:"black"},
+  {id:"wait",kind:"wait"},
+  {id:"gift",kind:"gift"},
+  {id:"video",kind:"video"},
+  {id:"final",kind:"final"}
+];
+
+const $=id=>document.getElementById(id);
+const main=$("main");
+const audio=new Audio();
+
+audio.loop=true;
+audio.preload="none";
+audio.volume=.2;
+
+const STORAGE="asawakooo-your-baby-30-days-v1";
+
+let saved={};
+
+try{
+  const data=JSON.parse(localStorage.getItem(STORAGE)||"{}");
+
+  if(data&&typeof data==="object"&&!Array.isArray(data)){
+    saved=data;
+  }
+}catch{}
+
+const answers={
+  firstCall:"",
+  closest:"",
+  understand:"",
+  care:""
+};
+
+for(const key of Object.keys(answers)){
+  if(typeof saved.answers?.[key]==="string"){
+    answers[key]=saved.answers[key].slice(0,4000);
+  }
+}
+
+let lang=saved.lang==="vi"?"vi":"en";
+let index=0;
+let busy=false;
+let note="";
+let noteError=false;
+let localAvailable=true;
+
+let receipts=Array.isArray(saved.receipts)
+  ?saved.receipts.filter(x=>typeof x==="string").slice(-10)
+  :[];
+
+let musicWanted=false;
+let musicUnavailable=false;
+let musicIndex=0;
+let videoIndex=0;
+let videoMessage="videoLoading";
+
+let timers=[];
+let fadeFrame=0;
+let lastFocus=null;
+
+const t=key=>UI[key]?.[lang==="vi"?1:0]||key;
+const c=i=>COPY[i][lang==="vi"?1:0];
+
+const esc=s=>String(s).replace(/[&<>"']/g,x=>({
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
+}[x]));
+
+const paras=ids=>
+  '<div class="prose">'+
+  ids.map(i=>'<p>'+esc(c(i))+'</p>').join("")+
+  '</div>';
+
+const button=(label,action,kind="")=>
+  '<button type="button" class="button '+kind+
+  '" data-action="'+action+'" '+(busy?'disabled':'')+'>'+
+  esc(t(label))+
+  '</button>';
+
+function persist(){
+  try{
+    localStorage.setItem(
+      STORAGE,
+      JSON.stringify({lang,answers,receipts})
+    );
+
+    localAvailable=true;
+  }catch{
+    localAvailable=false;
+  }
+}
+
+function clearTimers(){
+  timers.forEach(clearTimeout);
+  timers=[];
+  cancelAnimationFrame(fadeFrame);
+}
+
+function later(fn,ms){
+  timers.push(setTimeout(fn,ms));
+}
+
+function current(){
+  return scenes[index];
+}
+
+function go(id){
+  const n=scenes.findIndex(s=>s.id===id);
+  if(n>=0)show(n);
+}
+
+function nav(next="continue",action="next",back=true){
+  return '<div class="actions">'+
+    (back&&index>0?button("back","back","ghost"):"")+
+    button(next,action)+
+    '</div>';
+}
+
+function characters(){
+  return `
+    <div class="characters">
+      <figure class="character">
+        <img data-asset="philippines" alt="${esc(CONFIG.recipient)}">
+        <figcaption>${esc(CONFIG.recipient)}</figcaption>
+      </figure>
+      <figure class="character">
+        <img data-asset="vietnam" alt="${esc(CONFIG.sender)}">
+        <figcaption>${esc(CONFIG.sender)}</figcaption>
+      </figure>
+    </div>
+  `;
+}
+
+/* =========================================================
+   ẢNH — TỰ THỬ CÁC ĐUÔI FILE ĐÃ KHAI BÁO
+   ========================================================= */
+
+function imageCandidates(img,files,failed){
+  let n=0;
+
+  img.onload=()=>{
+    img.hidden=false;
+  };
+
+  img.onerror=()=>{
+    if(++n<files.length){
+      img.src=files[n];
+    }else{
+      img.hidden=true;
+      failed?.();
+    }
+  };
+
+  if(files.length){
+    img.src=files[0];
+  }else{
+    img.hidden=true;
+    failed?.();
+  }
+}
+
+function prepareImages(){
+  main.querySelectorAll('[data-asset]').forEach(img=>{
+    const files=img.dataset.asset==="philippines"
+      ?CONFIG.philippinesChibi
+      :CONFIG.vietnamChibi;
+
+    imageCandidates(img,files,()=>{
+      img.closest("figure").hidden=true;
+    });
+  });
+
+  main.querySelectorAll('[data-chat]').forEach(img=>{
+    const figure=img.closest("figure");
+    const error=figure.querySelector(".asset-error");
+    const files=CONFIG.chatImages[Number(img.dataset.chat)]||[];
+
+    imageCandidates(img,files,()=>{
+      error.hidden=false;
+      figure.querySelector(".photo-button").hidden=true;
+    });
+  });
+}
+
+function photos(){
+  return '<div class="photos">'+
+    CONFIG.chatImages.slice(0,2).map((_,i)=>`
+      <figure class="photo">
+        <button
+          type="button"
+          class="photo-button"
+          data-action="zoom"
+          data-photo="${i}"
+          aria-label="${esc(t("photo"))} ${i+1}">
+          <img
+            data-chat="${i}"
+            alt="${esc(t("photo"))} ${i+1}">
+        </button>
+
+        <div class="asset-error" hidden>
+          ${esc(t("photoError"))}
+          <br>
+          <button type="button" data-action="retryPhoto">
+            ${esc(t("retry"))}
+          </button>
+        </div>
+
+        <figcaption>${esc(i===0?c(32):c(11))}</figcaption>
+      </figure>
+    `).join("")+
+    '</div>';
+}
+
+/* =========================================================
+   THỐNG KÊ CUỘC GỌI
+   ========================================================= */
+
+function callStats(){
+  const groups=CONFIG.callGroups
+    .filter(g=>
+      /^\d{4}-\d{2}-\d{2}$/.test(g.date)&&
+      Number.isInteger(g.count)&&
+      g.count>0
+    )
+    .sort((a,b)=>a.date.localeCompare(b.date));
+
+  const total=
+    Number.isInteger(CONFIG.callTotal)&&CONFIG.callTotal>0
+      ?CONFIG.callTotal
+      :groups.length
+        ?groups.reduce((sum,g)=>sum+g.count,0)
+        :null;
+
+  if(total===null){
+    return '<div class="soft-line"></div>'+
+      '<p class="emphasis">'+esc(c(31))+'</p>';
+  }
+
+  let rows="";
+
+  if(groups.length){
+    rows='<div class="call-list">'+groups.map(g=>{
+      const [y,m,d]=g.date.split("-").map(Number);
+
+      const date=new Intl.DateTimeFormat(
+        lang==="vi"?"vi-VN":"en-GB",
+        {day:"numeric",month:"short",year:"numeric"}
+      ).format(new Date(y,m-1,d,12));
+
+      return `
+        <div class="call-row">
+          <span>${esc(date)}</span>
+          <strong>
+            ${g.count} ${esc(t(g.count===1?"call":"calls"))}
+          </strong>
+        </div>
+      `;
+    }).join("")+'</div>';
+  }
+
+  return `
+    <div class="stat-number">${total}</div>
+    <p class="eyebrow">${esc(c(30))}</p>
+    ${rows}
+    <p class="emphasis">${esc(c(31))}</p>
+  `;
+}
+
+/* =========================================================
+   MÀN HỎI ĐÁP
+   ========================================================= */
+
+function drawQuestion(s){
+  const lead=s.lead!==undefined
+    ?'<p class="eyebrow">'+esc(c(s.lead))+'</p>'
+    :"";
+
+  const count=s.number
+    ?'<p class="answer-count">'+s.number+' / 3</p>'
+    :"";
+
+  const submitLabel=busy
+    ?t("sending")
+    :t(
+      s.id==="firstQuestion"
+        ?"save"
+        :s.number===3
+          ?"saveAll"
+          :"next"
+    );
+
+  return `
+    ${lead}
+    ${count}
+
+    <h1 class="question" id="sceneHeading" tabindex="-1">
+      ${esc(c(s.question))}
+    </h1>
+
+    <form class="response" id="responseForm" novalidate>
+      <label class="sr-only" for="answer">
+        ${esc(c(s.question))}
+      </label>
+
+      <textarea
+        id="answer"
+        name="${s.key}"
+        rows="5"
+        maxlength="4000"
+        placeholder="${esc(t(s.number?"deepPlaceholder":"placeholder"))}"
+        ${busy?"disabled":""}></textarea>
+
+      <p
+        class="form-note ${noteError?"error":""}"
+        id="formNote"
+        role="status"
+        aria-live="polite">${esc(note?t(note):"")}</p>
+
+      <div class="actions">
+        ${button("back","back","ghost")}
+        <button
+          type="submit"
+          class="button"
+          ${busy?"disabled":""}>
+          ${esc(submitLabel)}
+        </button>
+      </div>
+
+      <div class="actions" style="margin-top:4px">
+        ${button("later","skip","text")}
+      </div>
+    </form>
+  `;
+}
+
+/* =========================================================
+   DỰNG TỪNG CẢNH
+   ========================================================= */
+
+function render(){
+  const s=current();
+
+  document.body.classList.toggle("blackout",s.kind==="black");
+  document.body.classList.toggle("storm",s.kind==="storm");
+
+  $("recipientName").textContent=CONFIG.recipient;
+  $("senderName").textContent=CONFIG.sender;
+
+  document.documentElement.lang=lang;
+
+  document.querySelectorAll('[data-lang]').forEach(b=>{
+    b.setAttribute(
+      "aria-pressed",
+      String(b.dataset.lang===lang)
+    );
+  });
+
+  document.querySelector(".languages")
+    .setAttribute("aria-label",t("language"));
+
+  $("closePhoto").setAttribute("aria-label",t("closePhoto"));
+
+  const special=index>=normalScenes.length;
+
+  $("soundButton").hidden=special;
+  $("soundLabel").textContent=t("music");
+
+  $("soundButton").setAttribute(
+    "aria-pressed",
+    String(musicWanted)
+  );
+
+  const progress=Math.min(
+    100,
+    index/(normalScenes.length-1)*100
+  );
+
+  $("progressFill").style.width=progress+"%";
+
+  const bar=document.querySelector(".story-progress");
+
+  bar.setAttribute("aria-valuenow",String(Math.round(progress)));
+  bar.setAttribute("aria-label",t("progress"));
+  bar.hidden=special;
+
+  /* Đổi ngôn ngữ không tạo lại video đang chạy. */
+  if(s.kind==="video"&&$("giftVideo")){
+    updateVideoCopy();
+    return;
+  }
+
+  let html="";
+  let wide="";
+
+  if(s.kind==="opening"){
+    html=`
+      <div class="cover">
+        <h1 class="number" id="sceneHeading" tabindex="-1">30</h1>
+        <p class="days">${lang==="vi"?"NGÀY":"DAYS"}</p>
+        <p class="route">${esc(c(2))}</p>
+        <p class="opening-line">${esc(c(3))}</p>
+      </div>
+      ${characters()}
+      ${nav("start","start",false)}
+    `;
+  }
+
+  else if(s.kind==="messages"){
+    wide=" wide";
+
+    html=paras([4])+
+      photos()+
+      paras([5])+
+      nav("keepGoing");
+  }
+
+  else if(s.kind==="statement"){
+    html=`
+      <h1 class="display" id="sceneHeading" tabindex="-1">
+        ${esc(c(s.title))}
+      </h1>
+      ${s.text?paras(s.text):""}
+      ${
+        s.emphasis!==undefined
+          ?'<p class="emphasis">'+esc(c(s.emphasis))+'</p>'
+          :""
+      }
+      ${nav()}
+    `;
+  }
+
+  else if(s.kind==="beats"){
+    html=paras(s.text)+
+      '<div class="story-beats">'+
+      s.beats.map(i=>
+        '<div class="beat">'+esc(c(i))+'</div>'
+      ).join("")+
+      '</div>'+
+      characters()+
+      nav();
+  }
+
+  else if(s.kind==="calls"){
+    html=paras(s.text)+callStats()+nav();
+  }
+
+  else if(s.kind==="contrast"){
+    wide=" wide";
+
+    html=`
+      <div class="contrast">
+        <section>
+          <h2>${esc(c(32))}</h2>
+          ${paras([33])}
+        </section>
+
+        <section>
+          <h2>${esc(c(34))}</h2>
+          ${paras([35])}
+        </section>
+      </div>
+
+      ${paras([36])}
+      ${nav()}
+    `;
+  }
+
+  else if(s.kind==="question"){
+    html=drawQuestion(s);
+  }
+
+  else if(s.kind==="letter"){
+    html=`
+      <article class="letter">
+        <p class="eyebrow">
+          ${esc(t("to"))} ${esc(CONFIG.recipient)}
+        </p>
+        ${paras(s.text)}
+      </article>
+      ${nav()}
+    `;
+  }
+
+  else if(s.kind==="ending"){
+    html=`
+      <div class="quiet">
+        <h1 class="display small" id="sceneHeading">
+          ${esc(c(63))}
+        </h1>
+        <p class="end-word">${esc(c(64))}</p>
+      </div>
+    `;
+  }
+
+  else if(s.kind==="black"){
+    html="";
+  }
+
+  else if(s.kind==="wait"){
+    html=`
+      <h1 class="display" id="sceneHeading">${esc(c(65))}</h1>
+      <p class="prose wait-line">${esc(c(66))}</p>
+    `;
+  }
+
+  else if(s.kind==="gift"){
+    html=`
+      <h1 class="display small" id="sceneHeading" tabindex="-1">
+        ${esc(c(67))}
+      </h1>
+      ${paras([68])}
+      ${nav("open","gift",false)}
+    `;
+  }
+
+  else if(s.kind==="video"){
+    wide=" wide";
+
+    html=`
+      <div class="video-wrap">
+        <video
+          id="giftVideo"
+          controls
+          playsinline
+          preload="none"
+          aria-label="${esc(t("open"))}"></video>
+      </div>
+
+      <p
+        class="video-status"
+        id="videoStatus"
+        role="status"></p>
+
+      <div class="actions" id="videoActions"></div>
+    `;
+  }
+
+  else if(s.kind==="final"){
+    html=`
+      <h1 class="display small" id="sceneHeading" tabindex="-1">
+        ${esc(c(69))}
+      </h1>
+
+      ${paras([70])}
+
+      <p class="eyebrow" style="margin-top:24px">
+        ${esc(t("from"))} ${esc(CONFIG.sender)}.
+      </p>
+
+      ${characters()}
+      ${nav("replay","replay",false)}
+      ${pendingAnswers()}
+    `;
+  }
+
+  else{
+    html=paras(s.text)+
+      (
+        s.emphasis!==undefined
+          ?'<p class="emphasis">'+esc(c(s.emphasis))+'</p>'
+          :""
+      )+
+      nav();
+  }
+
+  const hasVisibleHeading=[
+    "opening",
+    "question",
+    "statement",
+    "gift",
+    "final",
+    "ending",
+    "wait"
+  ].includes(s.kind);
+
+  main.innerHTML=`
+    <section class="stage">
+      <div class="content${wide}">
+        ${
+          !hasVisibleHeading
+            ?'<h1 class="sr-only">'+esc(t("story"))+'</h1>'
+            :""
+        }
+        ${html}
+      </div>
+
+      ${
+        musicUnavailable&&!special
+          ?'<p class="footnote">'+esc(t("musicError"))+'</p>'
+          :""
+      }
+    </section>
+  `;
+
+  if(s.kind==="question"){
+    $("answer").value=answers[s.key];
+
+    $("responseForm").addEventListener("submit",e=>{
+      e.preventDefault();
+
+      if(busy)return;
+
+      if(s.number&&s.number<3){
+        next();
+      }else{
+        sendAnswers(
+          s.id==="firstQuestion"
+            ?"first_call"
+            :"deep_talk"
+        );
+      }
+    });
+
+    $("answer").addEventListener("input",e=>{
+      answers[s.key]=e.target.value;
+
+      persist();
+
+      note=localAvailable?"draft":"draftUnavailable";
+      noteError=false;
+
+      $("formNote").textContent=t(note);
+      $("formNote").classList.remove("error");
+    });
+  }
+
+  prepareImages();
+
+  if(s.kind==="video"){
+    setupVideo();
+    updateVideoCopy();
+  }
+}
+
+function show(n){
+  if(busy)return;
+
+  clearTimers();
+
+  const old=current();
+
+  if(old?.kind==="video"){
+    $("giftVideo")?.pause();
+  }
+
+  index=Math.max(0,Math.min(n,scenes.length-1));
+
+  note="";
+  noteError=false;
+
+  render();
+
+  window.scrollTo({top:0,behavior:"auto"});
+  $("sceneHeading")?.focus({preventScroll:true});
+
+  if(current().kind==="ending"){
+    fadeMusic();
+    later(()=>go("black"),6200);
+  }
+
+  if(current().kind==="black"){
+    later(()=>go("wait"),4500);
+  }
+
+  if(current().kind==="wait"){
+    later(()=>go("gift"),6000);
+  }
+}
+
+function next(){
+  if(index<scenes.length-1){
+    show(index+1);
+  }
+}
+
+/* =========================================================
+   ĐỔI NGÔN NGỮ — GIỮ NGUYÊN CÂU TRẢ LỜI VÀ VỊ TRÍ ĐỌC
+   ========================================================= */
+
+function setLanguage(value){
+  if(value!=="en"&&value!=="vi")return;
+  if(value===lang)return;
+
+  const y=window.scrollY;
+  const area=$("answer");
+  const focused=document.activeElement===area;
+
+  const selection=area
+    ?[area.selectionStart,area.selectionEnd]
+    :null;
+
+  lang=value;
+
+  persist();
+  render();
+
+  window.scrollTo({top:y,behavior:"auto"});
+
+  if(focused&&$("answer")){
+    $("answer").focus({preventScroll:true});
+    $("answer").setSelectionRange(...selection);
+  }
+}
+
+/* =========================================================
+   GỬI CÂU TRẢ LỜI QUA FORMSPREE
+   ========================================================= */
+
+function snapshot(type){
+  const keys=type==="first_call"
+    ?["firstCall"]
+    :Object.keys(answers);
+
+  return JSON.stringify(
+    Object.fromEntries(
+      keys.map(k=>[k,answers[k].trim()])
+    )
+  );
+}
+
+function pendingAnswers(){
+  const has=Object.values(answers).some(x=>x.trim());
+
+  const pending=has&&
+    !receipts.includes(snapshot("deep_talk"));
+
+  return (
+    pending
+      ?'<div class="actions">'+
+        button("saveAll","sendPending","ghost")+
+        '</div>'
+      :""
+  )+(
+    note
+      ?'<p class="form-note '+(noteError?"error":"")+
+        '" role="status" id="finalNote">'+
+        esc(t(note))+
+        '</p>'
+      :""
+  );
+}
+
+async function sendAnswers(type){
+  if(busy)return;
+
+  const snap=snapshot(type);
+  const values=JSON.parse(snap);
+
+  if(!Object.values(values).some(Boolean)){
+    note="empty";
+    noteError=true;
+
+    render();
+    $("answer")?.focus();
+    return;
+  }
+
+  /* Không gửi lại cùng một nội dung đã được xác nhận. */
+  if(receipts.includes(snap)){
+    next();
+    return;
+  }
+
+  busy=true;
+  note="sending";
+  noteError=false;
+
+  render();
+
+  const controller=new AbortController();
+
+  const timeout=setTimeout(()=>{
+    controller.abort();
+  },18000);
+
+  const questions={
+    firstCall:COPY[26][0],
+    closest:COPY[42][0],
+    understand:COPY[43][0],
+    care:COPY[44][0]
+  };
+
+  const data=new FormData();
+
+  data.append(
+    "_subject",
+    "30 days — "+CONFIG.recipient+" → "+CONFIG.sender
+  );
+
+  data.append("respondent",CONFIG.recipient);
+  data.append("for",CONFIG.sender);
+  data.append("language",lang);
+  data.append("section",type);
+  data.append("sent_at",new Date().toISOString());
+
+  data.append(
+    "submission_id",
+    globalThis.crypto?.randomUUID?.()||String(Date.now())
+  );
+
+  data.append("_gotcha","");
+
+  const lines=[];
+
+  for(const [key,value]of Object.entries(values)){
+    if(value){
+      data.append(key,value);
+      lines.push(questions[key]+"\n"+value);
+    }
+  }
+
+  data.append("message",lines.join("\n\n"));
+
+  try{
+    const response=await fetch(CONFIG.formEndpoint,{
+      method:"POST",
+      body:data,
+      headers:{Accept:"application/json"},
+      signal:controller.signal
+    });
+
+    const result=await response.json().catch(()=>null);
+
+    if(
+      !response.ok||
+      result?.ok===false||
+      result?.errors?.length
+    ){
+      throw Error("Not confirmed");
+    }
+
+    receipts.push(snap);
+    receipts=receipts.slice(-10);
+
+    persist();
+
+    busy=false;
+    note="sent";
+
+    render();
+
+    if(current().kind!=="final"){
+      later(()=>next(),1100);
+    }
+  }catch{
+    busy=false;
+    note="error";
+    noteError=true;
+
+    render();
+  }finally{
+    clearTimeout(timeout);
+  }
+}
+
+/* =========================================================
+   NHẠC NỀN
+   ========================================================= */
+
+function playMusic(){
+  musicWanted=true;
+  musicUnavailable=false;
+  audio.volume=.2;
+
+  if(!audio.getAttribute("src")){
+    musicIndex=0;
+    audio.src=CONFIG.music[musicIndex]||"";
+  }
+
+  if(!CONFIG.music.length){
+    musicWanted=false;
+    musicUnavailable=true;
+    render();
+    return;
+  }
+
+  audio.play().then(()=>{
+    musicWanted=true;
+    updateMusicButton();
+  }).catch(e=>{
+    if(e.name==="NotAllowedError"){
+      musicWanted=false;
+      updateMusicButton();
+    }
+  });
+
+  updateMusicButton();
+}
+
+function updateMusicButton(){
+  $("soundButton").setAttribute(
+    "aria-pressed",
+    String(musicWanted)
+  );
+}
+
+audio.addEventListener("error",()=>{
+  if(!musicWanted)return;
+
+  if(++musicIndex<CONFIG.music.length){
+    audio.src=CONFIG.music[musicIndex];
+    audio.play().catch(()=>{});
+  }else{
+    musicWanted=false;
+    musicUnavailable=true;
+
+    audio.removeAttribute("src");
+    audio.load();
+
+    render();
+  }
+});
+
+function stopMusic(){
+  cancelAnimationFrame(fadeFrame);
+
+  musicWanted=false;
+
+  audio.pause();
+  audio.volume=.2;
+
+  updateMusicButton();
+}
+
+function fadeMusic(){
+  const initial=audio.volume;
+  const start=performance.now();
+
+  musicWanted=false;
+  updateMusicButton();
+
+  function tick(now){
+    audio.volume=Math.max(
+      0,
+      initial*(1-(now-start)/2600)
+    );
+
+    if(now-start<2600){
+      fadeFrame=requestAnimationFrame(tick);
+    }else{
+      audio.pause();
+      audio.volume=.2;
+    }
+  }
+
+  fadeFrame=requestAnimationFrame(tick);
+}
+
+/* =========================================================
+   VIDEO MÓN QUÀ — CHỈ TẠO SAU KHI BẤM MỞ QUÀ
+   ========================================================= */
+
+function setupVideo(){
+  const video=$("giftVideo");
+
+  videoMessage="videoLoading";
+  videoIndex=0;
+
+  video.addEventListener("loadedmetadata",()=>{
+    videoMessage="videoPlay";
+    updateVideoCopy();
+  });
+
+  video.addEventListener("playing",()=>{
+    videoMessage="";
+    updateVideoCopy();
+  });
+
+  video.addEventListener("ended",()=>{
+    if(current().kind==="video"){
+      later(()=>go("final"),1400);
+    }
+  });
+
+  video.addEventListener("error",()=>{
+    if(++videoIndex<CONFIG.giftVideo.length){
+      video.src=CONFIG.giftVideo[videoIndex];
+      video.play().catch(()=>{});
+    }else{
+      videoMessage="videoError";
+      updateVideoCopy();
+    }
+  });
+
+  if(CONFIG.giftVideo.length){
+    video.src=CONFIG.giftVideo[0];
+
+    video.play().catch(e=>{
+      if(e.name==="NotAllowedError"){
+        videoMessage="videoPlay";
+        updateVideoCopy();
+      }
+    });
+  }else{
+    videoMessage="videoError";
+    updateVideoCopy();
+  }
+}
+
+function updateVideoCopy(){
+  const video=$("giftVideo");
+  if(!video)return;
+
+  video.setAttribute("aria-label",t("open"));
+
+  $("videoStatus").textContent=videoMessage
+    ?t(videoMessage)
+    :"";
+
+  $("videoActions").innerHTML=
+    videoMessage==="videoError"
+      ?button("retry","retryVideo")
+      :video.paused&&!video.ended
+        ?button("play","playVideo")
+        :"";
+}
+
+/* =========================================================
+   CÁC NÚT ĐIỀU KHIỂN
+   ========================================================= */
+
+main.addEventListener("click",e=>{
+  const b=e.target.closest("[data-action]");
+
+  if(!b||busy)return;
+
+  const action=b.dataset.action;
+
+  if(action==="start"){
+    playMusic();
+    next();
+  }
+
+  else if(action==="next"||action==="skip"){
+    next();
+  }
+
+  else if(action==="back"){
+    show(index-1);
+  }
+
+  else if(action==="gift"){
+    stopMusic();
+    go("video");
+  }
+
+  else if(action==="replay"){
+    stopMusic();
+    show(0);
+  }
+
+  else if(action==="sendPending"){
+    sendAnswers("deep_talk");
+  }
+
+  else if(action==="playVideo"){
+    $("giftVideo").play().catch(()=>{
+      videoMessage="videoError";
+      updateVideoCopy();
+    });
+  }
+
+  else if(action==="retryVideo"){
+    stopMusic();
+
+    const video=$("giftVideo");
+
+    videoIndex=0;
+    videoMessage="videoLoading";
+
+    video.src=CONFIG.giftVideo[0]||"";
+    video.load();
+
+    video.play().catch(()=>{
+      videoMessage="videoError";
+      updateVideoCopy();
+    });
+
+    updateVideoCopy();
+  }
+
+  else if(action==="retryPhoto"){
+    const figure=b.closest("figure");
+    const img=figure.querySelector("img");
+
+    figure.querySelector(".asset-error").hidden=true;
+    figure.querySelector(".photo-button").hidden=false;
+
+    const files=CONFIG.chatImages[
+      Number(img.dataset.chat)
+    ]||[];
+
+    imageCandidates(img,files,()=>{
+      figure.querySelector(".asset-error").hidden=false;
+      figure.querySelector(".photo-button").hidden=true;
+    });
+  }
+
+  else if(action==="zoom"){
+    const img=b.querySelector("img");
+
+    if(img.hidden)return;
+
+    $("zoomImage").src=img.currentSrc||img.src;
+    $("zoomImage").alt=img.alt;
+
+    lastFocus=b;
+
+    const dialog=$("photoDialog");
+
+    if(dialog.showModal){
+      dialog.showModal();
+    }else{
+      dialog.setAttribute("open","");
+    }
+  }
+});
+
+document.querySelectorAll('[data-lang]').forEach(b=>{
+  b.addEventListener("click",()=>{
+    setLanguage(b.dataset.lang);
+  });
+});
+
+$("soundButton").addEventListener("click",()=>{
+  if(musicWanted){
+    stopMusic();
+  }else{
+    playMusic();
+  }
+});
+
+$("closePhoto").addEventListener("click",()=>{
+  $("photoDialog").close();
+});
+
+$("photoDialog").addEventListener("close",()=>{
+  lastFocus?.focus();
+});
+
+$("photoDialog").addEventListener("click",e=>{
+  if(e.target===$("photoDialog")){
+    const r=e.target.getBoundingClientRect();
+
+    if(
+      e.clientX<r.left||
+      e.clientX>r.right||
+      e.clientY<r.top||
+      e.clientY>r.bottom
+    ){
+      e.target.close();
+    }
+  }
+});
+
+/* Những điểm sáng nhỏ trong nền. */
+for(let i=0;i<26;i++){
+  const dot=document.createElement("span");
+
+  dot.className="grain-star";
+  dot.style.left=(Math.random()*100)+"%";
+  dot.style.top=(Math.random()*100)+"%";
+  dot.style.animationDelay=(-Math.random()*10)+"s";
+
+  $("stars").append(dot);
+}
+
+render();
+</script>
+</body>
+</html>
